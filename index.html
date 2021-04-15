@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consuming REST API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>
+        Consume API
+    </h1>
+
+    <form action="http://localhost:3000/api/absen" method="post" class="absen_form">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" autocomplete="name">
+
+        <label for="email">email</label>
+        <input type="text" name="email" id="email">
+
+        <label for="phone">Phone</label>
+        <input type="text" name="phone" id="phone">
+
+        <label for="batch">Batch</label>
+        <input type="text" name="batch" id="batch">
+
+        <button type="submit">Send</button>
+    </form>
+
+    <div id="root">
+
+    </div>
+
+
+    <script>
+
+        let root = document.getElementById("root");
+
+        fetch("http://localhost:3000/api/absen", {
+            method : "GET",
+            mode : "cors",
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data);
+            data.map((e) => {
+                root.innerHTML += `
+
+                <div class="card">
+                    <h3>${e.name}</h3>
+                    <p>${e.email}</p>
+                    <p>${e.phone}</p>
+                    <small>Batch ${e.batch}</small>
+                </div>
+
+                `
+            })
+        })
+        .catch((err) => console.log(err))
+    </script>
+    
+</body>
+</html>
